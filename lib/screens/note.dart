@@ -21,6 +21,7 @@ class Note extends StatefulWidget {
 class _NoteState extends State<Note> {
   final titleController = TextEditingController();
   final noteController = TextEditingController();
+  final timeController = TextEditingController();
 
   late TextEditingController _titleController;
   late TextEditingController _noteController;
@@ -32,6 +33,8 @@ class _NoteState extends State<Note> {
     super.initState();
     titleController.text = widget.title!;
     noteController.text = widget.note!;
+    timeController.text = widget.time!;
+
     _titleController = TextEditingController(text: widget.title);
     _noteController = TextEditingController(text: widget.note);
   }
@@ -45,6 +48,7 @@ class _NoteState extends State<Note> {
     _noteController.dispose();
     titleController.dispose();
     noteController.dispose();
+    timeController.dispose();
     //WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
@@ -226,23 +230,39 @@ class _NoteState extends State<Note> {
                     fontWeight: FontWeight.bold, fontSize: 24.0),
                 //textAlign: TextAlign.center,
               ),*/
-                    TextFormField(
-              //initialValue: widget.title.toString(),
-              controller: _titleController,
-              onChanged: (value) => {
-                setState(() {
-                  notes.editnoteTitle(titleController.text, value);
-                  titleController.text = value;
-                  /*Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => Note),
-          );*/
-                })
-              },
+                    Center(
+              child: TextFormField(
+                //initialValue: widget.title.toString(),
+                textAlign: TextAlign.center,
+                controller: _titleController,
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold, // Makes the text bold
+                  fontSize: 16, // Optional: Adjust text size
+                ),
+                decoration: InputDecoration(
+                  border: InputBorder.none, // Removes the underline
+                  focusedBorder:
+                      InputBorder.none, // Removes the underline when focused
+                  enabledBorder:
+                      InputBorder.none, // Removes the underline when enabled
+                ),
+                onChanged: (value) => {
+                  setState(() {
+                    notes.editnoteTitle(titleController.text, value);
+                    titleController.text = value;
+                    /*Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => Note),
+                                );*/
+                  })
+                },
+              ),
             )),
-            const SizedBox(height: 20),
+            //const SizedBox(height: 20),
             const Divider(
-              height: 10,
+              height: 5,
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -251,10 +271,23 @@ class _NoteState extends State<Note> {
                   child: TextFormField(
                     //initialValue: widget.note.toString(),
                     controller: _noteController,
+                    decoration: InputDecoration(
+                      border: InputBorder.none, // Removes the underline
+                      focusedBorder: InputBorder
+                          .none, // Removes the underline when focused
+                      enabledBorder: InputBorder
+                          .none, // Removes the underline when enabled
+                    ),
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
                     onChanged: (value) => {
                       setState(() {
                         notes.editNoteContent(noteController.text, value);
                         noteController.text = value;
+                        DateTime now = DateTime.now();
+                        print(timeController.text);
+                        notes.editUpdateTime(
+                            timeController.text, now.toString());
                       })
                     },
                   ) /*RichText(
