@@ -68,6 +68,7 @@ class Notes {
   }
 
   Future<void> editnoteTitle(String current, String future) async {
+    print(current);
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user != null) {
         //print(user.uid);

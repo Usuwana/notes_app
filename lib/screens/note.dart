@@ -22,6 +22,9 @@ class _NoteState extends State<Note> {
   final titleController = TextEditingController();
   final noteController = TextEditingController();
 
+  late TextEditingController _titleController;
+  late TextEditingController _noteController;
+
   Notes notes = Notes();
 
   @override
@@ -29,6 +32,8 @@ class _NoteState extends State<Note> {
     super.initState();
     titleController.text = widget.title!;
     noteController.text = widget.note!;
+    _titleController = TextEditingController(text: widget.title);
+    _noteController = TextEditingController(text: widget.note);
   }
 
   @override
@@ -36,6 +41,8 @@ class _NoteState extends State<Note> {
     // Clean up the controller when the widget is removed from the
     // widget tree.
     //employees.workerNames.clear();
+    _titleController.dispose();
+    _noteController.dispose();
     titleController.dispose();
     noteController.dispose();
     //WidgetsBinding.instance.removeObserver(this);
@@ -220,10 +227,16 @@ class _NoteState extends State<Note> {
                 //textAlign: TextAlign.center,
               ),*/
                     TextFormField(
-              initialValue: widget.title.toString(),
+              //initialValue: widget.title.toString(),
+              controller: _titleController,
               onChanged: (value) => {
                 setState(() {
-                  notes.editnoteTitle(widget.title.toString(), value);
+                  notes.editnoteTitle(titleController.text, value);
+                  titleController.text = value;
+                  /*Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => Note),
+          );*/
                 })
               },
             )),
@@ -234,8 +247,17 @@ class _NoteState extends State<Note> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Align(
-                alignment: Alignment.topLeft,
-                child: RichText(
+                  alignment: Alignment.topLeft,
+                  child: TextFormField(
+                    //initialValue: widget.note.toString(),
+                    controller: _noteController,
+                    onChanged: (value) => {
+                      setState(() {
+                        notes.editNoteContent(noteController.text, value);
+                        noteController.text = value;
+                      })
+                    },
+                  ) /*RichText(
                   text: TextSpan(
                     // Note: Styles for TextSpans must be explicitly defined.
                     // Child text spans will inherit styles from parent
@@ -252,8 +274,8 @@ class _NoteState extends State<Note> {
                       ),
                     ],
                   ),
-                ),
-              ),
+                ),*/
+                  ),
             ),
           ],
         ),
