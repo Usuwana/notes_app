@@ -3,7 +3,7 @@ import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class ClientNotes {
+class Notes {
   late String note_title;
   late String note;
   late String last_edit;

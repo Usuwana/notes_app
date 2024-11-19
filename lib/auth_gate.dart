@@ -1,4 +1,4 @@
-import 'package:analogy_notes/screens/home.dart';
+import 'package:notes_app/screens/home.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
