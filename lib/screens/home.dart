@@ -321,7 +321,7 @@ Since this is a security-sensitive operation, you eventually are asked to login 
                     borderSide: BorderSide(color: Colors.grey, width: 0.0),
                     borderRadius: BorderRadius.all(Radius.circular(25.0)),
                   ),
-                  labelText: 'SEARCH CLIENTS...',
+                  labelText: 'SEARCH NOTES...',
                   labelStyle: const TextStyle(color: Colors.black),
                 )),
           ),
@@ -358,7 +358,7 @@ Since this is a security-sensitive operation, you eventually are asked to login 
 
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(const SnackBar(
-                                      content: Text("Client deleted!"),
+                                      content: Text("Note deleted!"),
                                     ));
                                     Navigator.pushAndRemoveUntil(
                                         context,
@@ -422,7 +422,7 @@ Since this is a security-sensitive operation, you eventually are asked to login 
                                             ]),
                                           ),
                                           const Text(
-                                            '<<Swipe to delete client>>',
+                                            '<<Swipe to delete note>>',
                                             style: TextStyle(
                                                 fontSize: 10,
                                                 color: Color.fromARGB(
@@ -443,7 +443,7 @@ Since this is a security-sensitive operation, you eventually are asked to login 
                     print(snapshot.error);
                     return const SomethingWentWrong();
                   } else if (!snapshot.hasData) {
-                    return const Text('No clients found');
+                    return const Text('No notes found');
                   }
                   return ListView.builder(
                       itemCount: 10,
@@ -544,7 +544,7 @@ Since this is a security-sensitive operation, you eventually are asked to login 
                             );
                           }
                         },
-                        child: const Text('Add client details'),
+                        child: const Text('Add note'),
                       ),
                       const SizedBox(height: 40),
                     ],

@@ -18,7 +18,7 @@ class AuthGate extends StatelessWidget {
               providers: [
                 EmailAuthProvider(),
               ],
-              headerBuilder: (context, constraints, shrinkOffset) {
+              /*headerBuilder: (context, constraints, shrinkOffset) {
                 return Padding(
                   padding: const EdgeInsets.all(20),
                   child: AspectRatio(
@@ -26,7 +26,7 @@ class AuthGate extends StatelessWidget {
                     child: Image.asset('assets/logotrans.png'),
                   ),
                 );
-              },
+              },*/
             ),
           );
         }

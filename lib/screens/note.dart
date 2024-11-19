@@ -51,14 +51,14 @@ class _NoteState extends State<Note> {
           iconTheme: const IconThemeData(
             color: Color(0xFFF3D663), //change your color here
           ),
-          centerTitle: true,
+          /*centerTitle: true,
           title: SizedBox(
             height: 80,
             child: Image.asset(
               'assets/logotrans.png',
               fit: BoxFit.contain, // Adjust this to fit the image properly
             ),
-          ),
+          ),*/
           backgroundColor: const Color(0xFF989898),
           actions: [
             Padding(
@@ -140,7 +140,7 @@ class _NoteState extends State<Note> {
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(const SnackBar(
                                     content: Text(
-                                      "Client details updated",
+                                      "Notes updated",
                                       style:
                                           TextStyle(color: Color(0xFF000000)),
                                     ),
