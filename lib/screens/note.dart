@@ -213,13 +213,20 @@ class _NoteState extends State<Note> {
         child: Column(
           children: [
             Center(
-              child: Text(
+                child: /*Text(
                 widget.title.toString(),
                 style: const TextStyle(
                     fontWeight: FontWeight.bold, fontSize: 24.0),
                 //textAlign: TextAlign.center,
-              ),
-            ),
+              ),*/
+                    TextFormField(
+              initialValue: widget.title.toString(),
+              onChanged: (value) => {
+                setState(() {
+                  notes.editnoteTitle(widget.title.toString(), value);
+                })
+              },
+            )),
             const SizedBox(height: 20),
             const Divider(
               height: 10,
