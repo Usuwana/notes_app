@@ -1,7 +1,6 @@
-import 'package:analogy_notes/auth_gate.dart';
-import 'package:analogy_notes/firebase_options.dart';
-import 'package:analogy_notes/screens/home.dart';
-import 'package:analogy_notes/screens/signin.dart';
+import 'package:notes_app/auth_gate.dart';
+import 'package:notes_app/firebase_options.dart';
+import 'package:notes_app/screens/home.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
