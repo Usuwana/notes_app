@@ -74,8 +74,8 @@ class ClientNotes {
         firestoreInstance
             .collection("allow-users")
             .doc(user.uid)
-            .collection("clients")
-            .where("name", isEqualTo: current)
+            .collection("notes")
+            .where("title", isEqualTo: current)
             .get()
             .then((value) {
           print("Documents found: ${value.docs.length}");
@@ -83,9 +83,9 @@ class ClientNotes {
             FirebaseFirestore.instance
                 .collection("allow-users")
                 .doc(user.uid)
-                .collection("clients")
+                .collection("notes")
                 .doc(element.id)
-                .update({"name": future})
+                .update({"title": future})
                 //.delete()
                 .then((value) {
               print("Success!");
@@ -104,8 +104,8 @@ class ClientNotes {
         firestoreInstance
             .collection("allow-users")
             .doc(user.uid)
-            .collection("clients")
-            .where("details", isEqualTo: current)
+            .collection("notes")
+            .where("note", isEqualTo: current)
             .get()
             .then((value) {
           print("Documents found: ${value.docs.length}");
@@ -113,9 +113,9 @@ class ClientNotes {
             FirebaseFirestore.instance
                 .collection("allow-users")
                 .doc(user.uid)
-                .collection("clients")
+                .collection("notes")
                 .doc(element.id)
-                .update({"details": future})
+                .update({"note": future})
                 //.delete()
                 .then((value) {
               print("Success!");
@@ -134,8 +134,8 @@ class ClientNotes {
         firestoreInstance
             .collection("allow-users")
             .doc(user.uid)
-            .collection("clients")
-            .where("diagnosis", isEqualTo: current)
+            .collection("notes")
+            .where("update_time", isEqualTo: current)
             .get()
             .then((value) {
           print("Documents found: ${value.docs.length}");
@@ -143,9 +143,9 @@ class ClientNotes {
             FirebaseFirestore.instance
                 .collection("allow-users")
                 .doc(user.uid)
-                .collection("clients")
+                .collection("notes")
                 .doc(element.id)
-                .update({"diagnosis": future})
+                .update({"update_time": future})
                 //.delete()
                 .then((value) {
               print("Success!");
@@ -155,32 +155,6 @@ class ClientNotes {
       }
     });
     //editClient('Tatenda');
-  }
-
-  Future<void> addSearchClient(String name, String email, String id,
-      String phone, String details, String address, String diagnosis
-      /*List<dynamic> schedules*/
-      ) async {
-    FirebaseAuth.instance.authStateChanges().listen((User? user) {
-      if (user != null) {
-        //print(user.uid);
-        firestoreInstance
-            .collection("allow-users")
-            .doc(user.uid)
-            .collection("search_clients")
-            .add({
-          'details': details,
-          'email': email,
-          'name': name,
-          'phone': phone,
-          'id': id,
-          'address': address,
-          'diagnosis': diagnosis
-        }).then((value) {
-          print(value.id);
-        });
-      }
-    });
   }
 
   Future<void> deleteUserAccount() async {
