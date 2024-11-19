@@ -22,6 +22,9 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
   final noteController = TextEditingController();
   final searchController = TextEditingController();
   Notes notes = Notes();
+  late String new_title;
+  late String new_note;
+  late String new_time;
 
   Future<dynamic>? _notesFuture;
 
@@ -30,6 +33,9 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
     super.initState();
     //WidgetsBinding.instance.addObserver(this);
     _notesFuture = notes.getNotes();
+    new_title = '';
+    new_note = '';
+    new_time = '';
     //reloadData();
   }
 
@@ -234,7 +240,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
             fit: BoxFit.contain, // Adjust this to fit the image properly
           ),
         ),*/
-        backgroundColor: const Color(0xFF989898),
+        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
         leading: Padding(
           padding: const EdgeInsets.all(10.0),
           child: GestureDetector(
@@ -276,7 +282,10 @@ Since this is a security-sensitive operation, you eventually are asked to login 
                       },
                     );
                   },
-                  icon: const Icon(Icons.delete_forever))),
+                  icon: const Icon(
+                    Icons.delete_forever,
+                    color: Colors.white,
+                  ))),
         ),
         actions: [
           Padding(
@@ -289,12 +298,12 @@ Since this is a security-sensitive operation, you eventually are asked to login 
                   style: TextStyle(
                       fontWeight: FontWeight.normal,
                       fontSize: 18,
-                      color: Color(0xFFF3D663))),
+                      color: Color.fromARGB(255, 255, 255, 255))),
             ),
           )
         ],
       ),
-      backgroundColor: const Color(0xFF989898),
+      backgroundColor: const Color.fromARGB(255, 0, 0, 0),
       body: Column(
         children: [
           Padding(
@@ -311,9 +320,12 @@ Since this is a security-sensitive operation, you eventually are asked to login 
                                   Search(searchTerm: searchController.text)),
                         );
                       },
-                      icon: const Icon(Icons.search)),
+                      icon: const Icon(
+                        Icons.search,
+                        color: Colors.white,
+                      )),
                   filled: true,
-                  fillColor: Colors.grey,
+                  fillColor: const Color.fromARGB(255, 68, 68, 68),
                   border: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey, width: 0.0),
                       borderRadius: BorderRadius.all(Radius.circular(25.0))),
@@ -322,7 +334,8 @@ Since this is a security-sensitive operation, you eventually are asked to login 
                     borderRadius: BorderRadius.all(Radius.circular(25.0)),
                   ),
                   labelText: 'SEARCH NOTES...',
-                  labelStyle: const TextStyle(color: Colors.black),
+                  labelStyle: const TextStyle(
+                      color: Color.fromARGB(255, 255, 255, 255)),
                 )),
           ),
           const SizedBox(
@@ -457,102 +470,19 @@ Since this is a security-sensitive operation, you eventually are asked to login 
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color(0xFF989898),
+        backgroundColor: const Color.fromARGB(255, 68, 68, 68),
         tooltip: 'Increment',
         onPressed: () {
-          showModalBottomSheet(
-            isScrollControlled: true,
-            context: context,
-            builder: (context) {
-              return SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context)
-                        .viewInsets
-                        .bottom, // Adjusts padding when the keyboard appears
-                    left: 16.0,
-                    right: 16.0,
-                    top: 16.0,
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      TextField(
-                        decoration: const InputDecoration(
-                          labelText: 'Title',
-                        ),
-                        controller: titleController,
-                      ),
-                      const SizedBox(height: 10),
-                      TextField(
-                        decoration: const InputDecoration(
-                          labelText: 'Note',
-                        ),
-                        controller: noteController,
-                      ),
-                      const SizedBox(height: 20),
-                      ElevatedButton(
-                        onPressed: () {
-                          // Add your logic for when the button is pressed
-                          DateTime now = DateTime.now();
-                          if (titleController.text.isNotEmpty &&
-                              noteController.text.isNotEmpty) {
-                            notes.addNote(
-                                titleController.text,
-                                noteController.text,
-                                now.toString(),
-                                now.toString());
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(const SnackBar(
-                              content: Text(
-                                "Notes updated",
-                                style: TextStyle(color: Color(0xFF000000)),
-                              ),
-                              behavior: SnackBarBehavior.floating,
-                              backgroundColor: Color(0xFFF3D663),
-                            ));
-                            titleController.clear();
-                            noteController.clear();
-
-                            Navigator.pop(context);
-
-                            Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(builder: (context) => Home()),
-                                ModalRoute.withName('/'));
-
-                            //reloadData();
-                          } else if (titleController.text.isEmpty &&
-                              noteController.text.isNotEmpty) {
-                            Fluttertoast.showToast(
-                              msg: "Name is empty!",
-                              toastLength: Toast.LENGTH_SHORT, // Duration
-                              gravity: ToastGravity.BOTTOM, // Position
-                              backgroundColor:
-                                  const Color.fromARGB(255, 255, 0, 0),
-                              textColor: const Color.fromARGB(255, 0, 0, 0),
-                            );
-                          } else if (titleController.text.isNotEmpty &&
-                              noteController.text.isEmpty) {
-                            Fluttertoast.showToast(
-                              msg: "Note is empty!",
-                              toastLength: Toast.LENGTH_SHORT, // Duration
-                              gravity: ToastGravity.BOTTOM, // Position
-                              backgroundColor:
-                                  const Color.fromARGB(255, 255, 0, 0),
-                              textColor: const Color.fromARGB(255, 0, 0, 0),
-                            );
-                          }
-                        },
-                        child: const Text('Add note'),
-                      ),
-                      const SizedBox(height: 40),
-                    ],
-                  ),
-                ),
-              );
-            },
-          );
+          DateTime now = DateTime.now();
+          notes.addNote(new_title, new_note, now.toString(), now.toString());
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      Note(title: new_title, note: new_note, time: new_time
+                          // documentID:
+                          //     documents[index].id,
+                          )));
         },
         child: const Icon(Icons.add, color: Colors.white, size: 28),
       ),

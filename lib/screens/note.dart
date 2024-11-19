@@ -70,7 +70,7 @@ class _NoteState extends State<Note> {
               fit: BoxFit.contain, // Adjust this to fit the image properly
             ),
           ),*/
-          backgroundColor: const Color(0xFF989898),
+          backgroundColor: const Color.fromARGB(255, 0, 0, 0),
           actions: [
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -198,7 +198,7 @@ class _NoteState extends State<Note> {
               ),
             ),
           ]),
-      backgroundColor: const Color(0xFF989898),
+      backgroundColor: const Color.fromARGB(255, 0, 0, 0),
       body: RefreshIndicator(
         onRefresh: () async {
           //_handleRefresh();
@@ -233,14 +233,16 @@ class _NoteState extends State<Note> {
                     Center(
               child: TextFormField(
                 //initialValue: widget.title.toString(),
+                cursorColor: Colors.white,
                 textAlign: TextAlign.center,
                 controller: _titleController,
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
                 style: TextStyle(
-                  fontWeight: FontWeight.bold, // Makes the text bold
-                  fontSize: 16, // Optional: Adjust text size
-                ),
+                    fontWeight: FontWeight.bold, // Makes the text bold
+                    fontSize: 16,
+                    color: Colors.white // Optional: Adjust text size
+                    ),
                 decoration: InputDecoration(
                   border: InputBorder.none, // Removes the underline
                   focusedBorder:
@@ -252,6 +254,9 @@ class _NoteState extends State<Note> {
                   setState(() {
                     notes.editnoteTitle(titleController.text, value);
                     titleController.text = value;
+                    DateTime now = DateTime.now();
+                    print(timeController.text);
+                    notes.editUpdateTime(timeController.text, now.toString());
                     /*Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(builder: (context) => Note),
@@ -269,8 +274,12 @@ class _NoteState extends State<Note> {
               child: Align(
                   alignment: Alignment.topLeft,
                   child: TextFormField(
+                    cursorColor: Colors.white,
                     //initialValue: widget.note.toString(),
                     controller: _noteController,
+                    style: TextStyle(
+                        color: Colors.white // Optional: Adjust text size
+                        ),
                     decoration: InputDecoration(
                       border: InputBorder.none, // Removes the underline
                       focusedBorder: InputBorder
