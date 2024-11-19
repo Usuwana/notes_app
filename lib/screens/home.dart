@@ -20,6 +20,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with WidgetsBindingObserver {
   final titleController = TextEditingController();
   final noteController = TextEditingController();
+  final searchController = TextEditingController();
   Notes notes = Notes();
   Future<dynamic>? _notesFuture;
 
@@ -48,13 +49,10 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
     // Clean up the controller when the widget is removed from the
     // widget tree.
     //employees.workerNames.clear();
-    nameController.dispose();
-    idController.dispose();
-    emailController.dispose();
-    phoneController.dispose();
-    detailsController.dispose();
-    addressController.dispose();
-    diagnosisController.dispose();
+    titleController.dispose();
+    noteController.dispose();
+    searchController.dispose();
+
     //WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
@@ -227,14 +225,14 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
         iconTheme: const IconThemeData(
           color: Color(0xFFF3D663), //change your color here
         ),
-        centerTitle: true,
+        /*centerTitle: true,
         title: SizedBox(
           height: 80,
           child: Image.asset(
             'assets/logotrans.png',
             fit: BoxFit.contain, // Adjust this to fit the image properly
           ),
-        ),
+        ),*/
         backgroundColor: const Color(0xFF989898),
         leading: Padding(
           padding: const EdgeInsets.all(10.0),
