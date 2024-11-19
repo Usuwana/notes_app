@@ -60,7 +60,7 @@ class _NoteState extends State<Note> {
 
       appBar: AppBar(
           iconTheme: const IconThemeData(
-            color: Color(0xFFF3D663), //change your color here
+            color: Color.fromARGB(255, 255, 255, 255), //change your color here
           ),
           /*centerTitle: true,
           title: SizedBox(
@@ -240,7 +240,7 @@ class _NoteState extends State<Note> {
                 maxLines: null,
                 style: TextStyle(
                     fontWeight: FontWeight.bold, // Makes the text bold
-                    fontSize: 16,
+                    fontSize: 24,
                     color: Colors.white // Optional: Adjust text size
                     ),
                 decoration: InputDecoration(
@@ -267,7 +267,7 @@ class _NoteState extends State<Note> {
             )),
             //const SizedBox(height: 20),
             const Divider(
-              height: 5,
+              height: 0.5,
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
