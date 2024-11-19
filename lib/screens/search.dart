@@ -28,7 +28,7 @@ class _SearchState extends State<Search> {
   void initState() {
     super.initState();
     //WidgetsBinding.instance.addObserver(this);
-    _clientsFuture = clients.searchClient(widget.searchTerm!);
+    _notesFuture = notes.searchNote(widget.searchTerm!);
     //reloadData();
   }
 
@@ -100,7 +100,7 @@ class _SearchState extends State<Search> {
           ),
           Expanded(
             child: FutureBuilder(
-                future: _clientsFuture,
+                future: _notesFuture,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return RefreshIndicator(
@@ -115,7 +115,7 @@ class _SearchState extends State<Search> {
                         });
                       },
                       child: ListView.builder(
-                          itemCount: clients.searchNames.length,
+                          itemCount: notes.searchTitles.length,
                           itemBuilder: (context, index) {
                             return Column(
                               children: [
@@ -127,22 +127,13 @@ class _SearchState extends State<Search> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => Note(
-                                                  clientName: clients
-                                                      .searchNames[index]
+                                                  title: notes
+                                                      .searchTitles[index]
                                                       .toString(),
-                                                  clientID:
-                                                      clients.searchIDs[index],
-                                                  clientEmail: clients
-                                                      .searchEmails[index],
-                                                  clientPhone: clients
-                                                      .searchPhones[index],
-                                                  clientDetails: clients
-                                                      .searchDetails[index]
-                                                      .toString(),
-                                                  clientAddress: clients
-                                                      .searchAddresses[index],
-                                                  clientDiagnosis: clients
-                                                      .searchDiagnoses[index],
+                                                  note:
+                                                      notes.searchNotes[index],
+                                                  time:
+                                                      notes.searchTimes[index],
                                                 )));
                                   },
                                   child: Container(
@@ -151,7 +142,7 @@ class _SearchState extends State<Search> {
                                         width: 20,
                                       ),
                                       Container(
-                                        child: Text(clients.searchNames[index]
+                                        child: Text(notes.searchTitles[index]
                                             .toString()),
                                       ),
                                       const Spacer(),
@@ -172,7 +163,7 @@ class _SearchState extends State<Search> {
                     print(snapshot.error);
                     return const SomethingWentWrong();
                   } else if (!snapshot.hasData) {
-                    print(clients.searchNames.length);
+                    print(notes.searchTitles.length);
                     return Container(
                       child: Text('No results for search term'),
                     );

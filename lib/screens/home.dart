@@ -22,6 +22,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
   final noteController = TextEditingController();
   final searchController = TextEditingController();
   Notes notes = Notes();
+
   Future<dynamic>? _notesFuture;
 
   @override
@@ -329,7 +330,7 @@ Since this is a security-sensitive operation, you eventually are asked to login 
           ),
           Expanded(
             child: FutureBuilder(
-                future: _clientsFuture,
+                future: _notesFuture,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return RefreshIndicator(
@@ -343,19 +344,17 @@ Since this is a security-sensitive operation, you eventually are asked to login 
                         });
                       },
                       child: ListView.builder(
-                          itemCount: clients.clientNames.length,
+                          itemCount: notes.titles.length,
                           itemBuilder: (context, index) {
                             return Column(
                               children: [
                                 Dismissible(
-                                  key: ObjectKey(clients.IDs[index]),
+                                  key: ObjectKey(notes.titles[index]),
                                   background: stackBehindDismiss(),
                                   onDismissed: (direction) {
-                                    var item =
-                                        clients.clientNames.elementAt(index);
+                                    var item = notes.titles.elementAt(index);
 
-                                    clients.removeClient(
-                                        clients.clientNames[index]);
+                                    notes.removeNote(notes.titles[index]);
 
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(const SnackBar(
@@ -375,22 +374,12 @@ Since this is a security-sensitive operation, you eventually are asked to login 
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) => Note(
-                                                    clientName: clients
-                                                        .clientNames[index]
+                                                    title: notes.titles[index]
                                                         .toString(),
-                                                    clientID:
-                                                        clients.IDs[index],
-                                                    clientEmail:
-                                                        clients.emails[index],
-                                                    clientPhone:
-                                                        clients.phones[index],
-                                                    clientDetails: clients
-                                                        .all_details[index]
-                                                        .toString(),
-                                                    clientAddress: clients
-                                                        .addresses[index],
-                                                    clientDiagnosis: clients
-                                                        .all_diagnoses[index],
+                                                    note: notes.notes[index],
+                                                    time: notes
+                                                        .updates_times[index],
+
                                                     // documentID:
                                                     //     documents[index].id,
                                                   )));
@@ -414,7 +403,7 @@ Since this is a security-sensitive operation, you eventually are asked to login 
                                               ),
                                               Container(
                                                 child: Text(
-                                                  clients.clientNames[index]
+                                                  notes.titles[index]
                                                       .toString(),
                                                   style: TextStyle(
                                                       fontWeight:
@@ -490,87 +479,41 @@ Since this is a security-sensitive operation, you eventually are asked to login 
                     children: [
                       TextField(
                         decoration: const InputDecoration(
-                          labelText: 'Client Name',
+                          labelText: 'Title',
                         ),
-                        controller: nameController,
+                        controller: titleController,
                       ),
                       const SizedBox(height: 10),
                       TextField(
                         decoration: const InputDecoration(
-                          labelText: 'ID',
+                          labelText: 'Note',
                         ),
-                        controller: idController,
-                      ),
-                      const SizedBox(height: 10),
-                      TextField(
-                        decoration: const InputDecoration(
-                          labelText: 'Email',
-                        ),
-                        controller: emailController,
-                      ),
-                      const SizedBox(height: 10),
-                      TextField(
-                        decoration: const InputDecoration(
-                          labelText: 'Phone',
-                        ),
-                        controller: phoneController,
-                      ),
-                      const SizedBox(height: 10),
-                      TextField(
-                        decoration: const InputDecoration(
-                          labelText: 'Address',
-                        ),
-                        controller: addressController,
-                      ),
-                      const SizedBox(height: 10),
-                      TextField(
-                        decoration: const InputDecoration(
-                          labelText: 'Diagnosis',
-                        ),
-                        controller: diagnosisController,
-                      ),
-                      const SizedBox(height: 10),
-                      TextField(
-                        decoration: const InputDecoration(
-                          labelText: 'Extra Details',
-                        ),
-                        controller: detailsController,
+                        controller: noteController,
                       ),
                       const SizedBox(height: 20),
                       ElevatedButton(
                         onPressed: () {
                           // Add your logic for when the button is pressed
-                          if (nameController.text.isNotEmpty &&
-                              emailController.text.isNotEmpty &&
-                              idController.text.isNotEmpty &&
-                              phoneController.text.isNotEmpty &&
-                              detailsController.text.isNotEmpty &&
-                              addressController.text.isNotEmpty &&
-                              diagnosisController.text.isNotEmpty) {
-                            clients.addClient(
-                                nameController.text,
-                                emailController.text,
-                                idController.text,
-                                phoneController.text,
-                                detailsController.text,
-                                addressController.text,
-                                diagnosisController.text);
+                          DateTime now = DateTime.now();
+                          if (titleController.text.isNotEmpty &&
+                              noteController.text.isNotEmpty) {
+                            notes.addNote(
+                                titleController.text,
+                                noteController.text,
+                                now.toString(),
+                                now.toString());
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(const SnackBar(
                               content: Text(
-                                "Client details updated",
+                                "Notes updated",
                                 style: TextStyle(color: Color(0xFF000000)),
                               ),
                               behavior: SnackBarBehavior.floating,
                               backgroundColor: Color(0xFFF3D663),
                             ));
-                            nameController.clear();
-                            emailController.clear();
-                            idController.clear();
-                            phoneController.clear();
-                            detailsController.clear();
-                            addressController.clear();
-                            diagnosisController.clear();
+                            titleController.clear();
+                            noteController.clear();
+
                             Navigator.pop(context);
 
                             Navigator.pushAndRemoveUntil(
@@ -579,13 +522,8 @@ Since this is a security-sensitive operation, you eventually are asked to login 
                                 ModalRoute.withName('/'));
 
                             //reloadData();
-                          } else if (diagnosisController.text.isNotEmpty &&
-                              addressController.text.isNotEmpty &&
-                              nameController.text.isEmpty &&
-                              emailController.text.isNotEmpty &&
-                              idController.text.isNotEmpty &&
-                              phoneController.text.isNotEmpty &&
-                              detailsController.text.isNotEmpty) {
+                          } else if (titleController.text.isEmpty &&
+                              noteController.text.isNotEmpty) {
                             Fluttertoast.showToast(
                               msg: "Name is empty!",
                               toastLength: Toast.LENGTH_SHORT, // Duration
@@ -594,105 +532,10 @@ Since this is a security-sensitive operation, you eventually are asked to login 
                                   const Color.fromARGB(255, 255, 0, 0),
                               textColor: const Color.fromARGB(255, 0, 0, 0),
                             );
-                          } else if (diagnosisController.text.isNotEmpty &&
-                              addressController.text.isNotEmpty &&
-                              emailController.text.isEmpty &&
-                              nameController.text.isNotEmpty &&
-                              idController.text.isNotEmpty &&
-                              phoneController.text.isNotEmpty &&
-                              detailsController.text.isNotEmpty) {
+                          } else if (titleController.text.isNotEmpty &&
+                              noteController.text.isEmpty) {
                             Fluttertoast.showToast(
-                              msg: "Email is empty!",
-                              toastLength: Toast.LENGTH_SHORT, // Duration
-                              gravity: ToastGravity.BOTTOM, // Position
-                              backgroundColor:
-                                  const Color.fromARGB(255, 255, 0, 0),
-                              textColor: const Color.fromARGB(255, 0, 0, 0),
-                            );
-                          } else if (diagnosisController.text.isNotEmpty &&
-                              addressController.text.isNotEmpty &&
-                              idController.text.isEmpty &&
-                              nameController.text.isNotEmpty &&
-                              emailController.text.isNotEmpty &&
-                              phoneController.text.isNotEmpty &&
-                              detailsController.text.isNotEmpty) {
-                            Fluttertoast.showToast(
-                              msg: "ID number is empty!",
-                              toastLength: Toast.LENGTH_SHORT, // Duration
-                              gravity: ToastGravity.BOTTOM, // Position
-                              backgroundColor:
-                                  const Color.fromARGB(255, 255, 0, 0),
-                              textColor: const Color.fromARGB(255, 0, 0, 0),
-                            );
-                          } else if (diagnosisController.text.isNotEmpty &&
-                              addressController.text.isNotEmpty &&
-                              phoneController.text.isEmpty &&
-                              nameController.text.isNotEmpty &&
-                              emailController.text.isNotEmpty &&
-                              idController.text.isNotEmpty &&
-                              detailsController.text.isNotEmpty) {
-                            Fluttertoast.showToast(
-                              msg: "Phone number is empty!",
-                              toastLength: Toast.LENGTH_SHORT, // Duration
-                              gravity: ToastGravity.BOTTOM, // Position
-                              backgroundColor:
-                                  const Color.fromARGB(255, 255, 0, 0),
-                              textColor: const Color.fromARGB(255, 0, 0, 0),
-                            );
-                          } else if (diagnosisController.text.isNotEmpty &&
-                              addressController.text.isNotEmpty &&
-                              detailsController.text.isEmpty &&
-                              nameController.text.isNotEmpty &&
-                              emailController.text.isNotEmpty &&
-                              idController.text.isNotEmpty &&
-                              phoneController.text.isNotEmpty) {
-                            Fluttertoast.showToast(
-                              msg: "Details is empty!",
-                              toastLength: Toast.LENGTH_SHORT, // Duration
-                              gravity: ToastGravity.BOTTOM, // Position
-                              backgroundColor:
-                                  const Color.fromARGB(255, 255, 0, 0),
-                              textColor: const Color.fromARGB(255, 0, 0, 0),
-                            );
-                          } else if (diagnosisController.text.isEmpty &&
-                                  addressController.text.isEmpty &&
-                                  nameController.text.isEmpty ||
-                              emailController.text.isEmpty ||
-                              idController.text.isEmpty ||
-                              phoneController.text.isEmpty ||
-                              detailsController.text.isEmpty) {
-                            Fluttertoast.showToast(
-                              msg: "Please make sure all fields are filled!",
-                              toastLength: Toast.LENGTH_SHORT, // Duration
-                              gravity: ToastGravity.BOTTOM, // Position
-                              backgroundColor:
-                                  const Color.fromARGB(255, 255, 0, 0),
-                              textColor: const Color.fromARGB(255, 0, 0, 0),
-                            );
-                          } else if (diagnosisController.text.isEmpty &&
-                              addressController.text.isNotEmpty &&
-                              nameController.text.isNotEmpty &&
-                              emailController.text.isNotEmpty &&
-                              idController.text.isNotEmpty &&
-                              phoneController.text.isNotEmpty &&
-                              detailsController.text.isNotEmpty) {
-                            Fluttertoast.showToast(
-                              msg: "Diagnosis is empty!",
-                              toastLength: Toast.LENGTH_SHORT, // Duration
-                              gravity: ToastGravity.BOTTOM, // Position
-                              backgroundColor:
-                                  const Color.fromARGB(255, 255, 0, 0),
-                              textColor: const Color.fromARGB(255, 0, 0, 0),
-                            );
-                          } else if (diagnosisController.text.isNotEmpty &&
-                              addressController.text.isEmpty &&
-                              nameController.text.isNotEmpty &&
-                              emailController.text.isNotEmpty &&
-                              idController.text.isNotEmpty &&
-                              phoneController.text.isNotEmpty &&
-                              detailsController.text.isNotEmpty) {
-                            Fluttertoast.showToast(
-                              msg: "Address is empty!",
+                              msg: "Note is empty!",
                               toastLength: Toast.LENGTH_SHORT, // Duration
                               gravity: ToastGravity.BOTTOM, // Position
                               backgroundColor:
