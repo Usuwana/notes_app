@@ -72,7 +72,7 @@ class _NoteState extends State<Note> {
           ),*/
           backgroundColor: const Color.fromARGB(255, 0, 0, 0),
           actions: [
-            Padding(
+            /*Padding(
               padding: const EdgeInsets.all(8.0),
               child: GestureDetector(
                 onTap: () {
@@ -196,7 +196,7 @@ class _NoteState extends State<Note> {
                       color: Color(0xFFF3D663)),
                 ),
               ),
-            ),
+            ),*/
           ]),
       backgroundColor: const Color.fromARGB(255, 0, 0, 0),
       body: RefreshIndicator(
