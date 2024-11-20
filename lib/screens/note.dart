@@ -59,10 +59,10 @@ class _NoteState extends State<Note> {
       //body: ,
 
       appBar: AppBar(
-          iconTheme: const IconThemeData(
-            color: Color.fromARGB(255, 255, 255, 255), //change your color here
-          ),
-          /*centerTitle: true,
+        iconTheme: const IconThemeData(
+          color: Color.fromARGB(255, 255, 255, 255), //change your color here
+        ),
+        /*centerTitle: true,
           title: SizedBox(
             height: 80,
             child: Image.asset(
@@ -70,134 +70,8 @@ class _NoteState extends State<Note> {
               fit: BoxFit.contain, // Adjust this to fit the image properly
             ),
           ),*/
-          backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-          actions: [
-            /*Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: GestureDetector(
-                onTap: () {
-                  showModalBottomSheet(
-                    isScrollControlled: true,
-                    context: context,
-                    builder: (context) {
-                      return SingleChildScrollView(
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            bottom: MediaQuery.of(context)
-                                .viewInsets
-                                .bottom, // Adjusts padding when the keyboard appears
-                            left: 16.0,
-                            right: 16.0,
-                            top: 16.0,
-                          ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              TextField(
-                                decoration: const InputDecoration(
-                                  labelText: 'Title',
-                                ),
-                                controller: titleController,
-                              ),
-                              const SizedBox(height: 10),
-                              TextField(
-                                decoration: const InputDecoration(
-                                  labelText: 'Note',
-                                ),
-                                controller: noteController,
-                              ),
-                              const SizedBox(height: 10),
-                              const SizedBox(height: 20),
-                              ElevatedButton(
-                                onPressed: () async {
-                                  /*if (widget.clientName !=
-                                      nameController.text) {
-                                    clients.editClientName(widget.clientName!,
-                                        nameController.text);
-                                  }
-                                  if (widget.clientAddress !=
-                                      addressController.text) {
-                                    clients.editClientAddress(
-                                        widget.clientAddress!,
-                                        addressController.text);
-                                  }
-                                  if (widget.clientDetails !=
-                                      detailsController.text) {
-                                    clients.editClientDetails(
-                                        widget.clientDetails!,
-                                        detailsController.text);
-                                  }
-                                  if (widget.clientDiagnosis !=
-                                      diagnosisController.text) {
-                                    clients.editClientDiagnosis(
-                                        widget.clientDiagnosis!,
-                                        diagnosisController.text);
-                                  }
-                                  if (widget.clientEmail !=
-                                      emailController.text) {
-                                    clients.editClientEmail(widget.clientEmail!,
-                                        emailController.text);
-                                  }
-                                  if (widget.clientID != idController.text) {
-                                    clients.editClientID(
-                                        widget.clientID!, idController.text);
-                                  }
-                                  if (widget.clientPhone !=
-                                      phoneController.text) {
-                                    clients.editClientPhone(widget.clientPhone!,
-                                        phoneController.text);
-                                  }*/
-
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(const SnackBar(
-                                    content: Text(
-                                      "Notes updated",
-                                      style:
-                                          TextStyle(color: Color(0xFF000000)),
-                                    ),
-                                    behavior: SnackBarBehavior.floating,
-                                    backgroundColor: Color(0xFFF3D663),
-                                  ));
-                                  Navigator.pop(context);
-                                  Navigator.pushAndRemoveUntil(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              Home() /*Note(
-                                                clientName: widget.clientName,
-                                                clientID: widget.clientID,
-                                                clientEmail: widget.clientEmail,
-                                                clientPhone: widget.clientPhone,
-                                                clientDetails:
-                                                    widget.clientDetails,
-                                                clientAddress:
-                                                    widget.clientAddress,
-                                                clientDiagnosis:
-                                                    widget.clientDiagnosis,
-                                              )*/
-                                          ),
-                                      ModalRoute.withName('/Note'));
-                                },
-                                child: const Text('Save Changes'),
-                              ),
-                              const SizedBox(height: 40),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                },
-                child: Text(
-                  'Edit',
-                  style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      fontSize: 18,
-                      color: Color(0xFFF3D663)),
-                ),
-              ),
-            ),*/
-          ]),
+        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+      ),
       backgroundColor: const Color.fromARGB(255, 0, 0, 0),
       body: RefreshIndicator(
         onRefresh: () async {
@@ -233,17 +107,19 @@ class _NoteState extends State<Note> {
                     Center(
               child: TextFormField(
                 //initialValue: widget.title.toString(),
+
                 cursorColor: Colors.white,
                 textAlign: TextAlign.center,
                 controller: _titleController,
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
-                style: TextStyle(
+                style: const TextStyle(
                     fontWeight: FontWeight.bold, // Makes the text bold
                     fontSize: 24,
                     color: Colors.white // Optional: Adjust text size
                     ),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
+                  hintText: "Click here",
                   border: InputBorder.none, // Removes the underline
                   focusedBorder:
                       InputBorder.none, // Removes the underline when focused
@@ -277,10 +153,11 @@ class _NoteState extends State<Note> {
                     cursorColor: Colors.white,
                     //initialValue: widget.note.toString(),
                     controller: _noteController,
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Colors.white // Optional: Adjust text size
                         ),
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
+                      hintText: "Click here",
                       border: InputBorder.none, // Removes the underline
                       focusedBorder: InputBorder
                           .none, // Removes the underline when focused
