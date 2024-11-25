@@ -25,6 +25,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
   late String new_title;
   late String new_note;
   late String new_time;
+  bool loaded = false;
 
   Future<dynamic>? _notesFuture;
 
@@ -36,20 +37,17 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
     new_title = '';
     new_note = '';
     new_time = '';
+    Future.delayed(Duration(seconds: 5), () {
+      setState(() {
+        loaded = true;
+      });
+    });
     //reloadData();
   }
 
   Future<void> _signOut() async {
     await FirebaseAuth.instance.signOut();
   }
-
-  /*void reloadData() {
-    // Simulate reloading data, fetching new data, or any other update
-    setState(() {
-      super.initState();
-      _workerNamesFuture = employees.getWorkerNames();
-    });
-  }*/
 
   @override
   void dispose() {
@@ -63,14 +61,6 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
     //WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
-
-  /*@override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    // Check if the app is resumed or inactive
-    if (state == AppLifecycleState.resumed) {
-      reloadData(); // Reload data when the page comes into focus
-    }
-  }*/
 
   Future<void> deleteUser(BuildContext context) async {
     User? user = FirebaseAuth.instance.currentUser;
@@ -346,111 +336,123 @@ Since this is a security-sensitive operation, you eventually are asked to login 
                 future: _notesFuture,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return RefreshIndicator(
-                      onRefresh: () async {
-                        //_handleRefresh();
-                        //(context as Element).reassemble();
-                        setState(() {
-                          Navigator.pushReplacement(context,
-                              MaterialPageRoute(builder: (context) => Home()));
-                          //ModalRoute.withName('/'));
-                        });
-                      },
-                      child: ListView.builder(
-                          itemCount: notes.titles.length,
-                          itemBuilder: (context, index) {
-                            return Column(
-                              children: [
-                                Dismissible(
-                                  key: ObjectKey(notes.titles[index]),
-                                  background: stackBehindDismiss(),
-                                  onDismissed: (direction) {
-                                    var item = notes.titles.elementAt(index);
+                    if (loaded) {
+                      return RefreshIndicator(
+                        onRefresh: () async {
+                          //_handleRefresh();
+                          //(context as Element).reassemble();
+                          setState(() {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Home()));
+                            //ModalRoute.withName('/'));
+                          });
+                        },
+                        child: ListView.builder(
+                            itemCount: notes.titles.length,
+                            itemBuilder: (context, index) {
+                              return Column(
+                                children: [
+                                  Dismissible(
+                                    key: ObjectKey(notes.titles[index]),
+                                    background: stackBehindDismiss(),
+                                    onDismissed: (direction) {
+                                      var item = notes.titles.elementAt(index);
 
-                                    notes.removeNote(notes.titles[index]);
+                                      notes.removeNote(notes.titles[index]);
 
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(const SnackBar(
-                                      content: Text("Note deleted!"),
-                                    ));
-                                    Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => Home()),
-                                        ModalRoute.withName('/'));
-                                  },
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      // List<QueryDocumentSnapshot> documents =
-                                      //     snapshot.data!;
-                                      Navigator.push(
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(const SnackBar(
+                                        content: Text("Note deleted!"),
+                                      ));
+                                      Navigator.pushAndRemoveUntil(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) => Note(
-                                                    title: notes.titles[index]
-                                                        .toString(),
-                                                    note: notes.notes[index],
-                                                    time: notes
-                                                        .updates_times[index],
-
-                                                    // documentID:
-                                                    //     documents[index].id,
-                                                  )));
-                                      //print('Check me out:');
-                                      //print(documents);
+                                              builder: (context) => Home()),
+                                          ModalRoute.withName('/'));
                                     },
-                                    child: Card(
-                                      color: Color(0xFF989898),
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            child: Row(children: [
-                                              // Container(
-                                              //   child: const CircleAvatar(
-                                              //       radius: 28,
-                                              //       backgroundImage:
-                                              //           AssetImage('assets/logo.png')),
-                                              // ),
-                                              const SizedBox(
-                                                width: 20,
-                                              ),
-                                              Container(
-                                                child: Text(
-                                                  notes.titles[index]
-                                                      .toString(),
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        // List<QueryDocumentSnapshot> documents =
+                                        //     snapshot.data!;
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => Note(
+                                                      title: notes.titles[index]
+                                                          .toString(),
+                                                      note: notes.notes[index],
+                                                      time: notes
+                                                          .updates_times[index],
+
+                                                      // documentID:
+                                                      //     documents[index].id,
+                                                    )));
+                                        //print('Check me out:');
+                                        //print(documents);
+                                      },
+                                      child: Card(
+                                        color: Color(0xFF989898),
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                              child: Row(children: [
+                                                // Container(
+                                                //   child: const CircleAvatar(
+                                                //       radius: 28,
+                                                //       backgroundImage:
+                                                //           AssetImage('assets/logo.png')),
+                                                // ),
+                                                const SizedBox(
+                                                  width: 20,
                                                 ),
-                                              ),
-                                              const Spacer(),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(10.0),
-                                                child: Container(
-                                                  child: const Icon(
-                                                      Icons.arrow_circle_right),
+                                                Container(
+                                                  child: Text(
+                                                    notes.titles[index]
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
                                                 ),
-                                              )
-                                            ]),
-                                          ),
-                                          const Text(
-                                            '<<Swipe to delete note>>',
-                                            style: TextStyle(
-                                                fontSize: 10,
-                                                color: Color.fromARGB(
-                                                    255, 62, 62, 62)),
-                                          )
-                                        ],
+                                                const Spacer(),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(
+                                                      10.0),
+                                                  child: Container(
+                                                    child: const Icon(Icons
+                                                        .arrow_circle_right),
+                                                  ),
+                                                )
+                                              ]),
+                                            ),
+                                            const Text(
+                                              '<<Swipe to delete note>>',
+                                              style: TextStyle(
+                                                  fontSize: 10,
+                                                  color: Color.fromARGB(
+                                                      255, 62, 62, 62)),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                const Divider(color: Colors.black)
-                              ],
+                                  const Divider(color: Colors.black)
+                                ],
+                              );
+                            }),
+                      );
+                    } else {
+                      return ListView.builder(
+                          itemCount: 10,
+                          itemBuilder: (context, index) {
+                            return const ProfileShimmer(
+                              hasBottomLines: true,
                             );
-                          }),
-                    );
+                          });
+                    }
                   } else if (snapshot.hasError) {
                     print("Checkout the error:");
                     print(snapshot.error);
