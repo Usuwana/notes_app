@@ -17,8 +17,6 @@ samples, guidance on mobile development, and a full API reference.
 
 # Screenshots
 
-<img src="https://github.com/Usuwana/Tinder-for-Movies/blob/main/assets/demo/one.png" width="250" height="500"> <img src="https://github.com/Usuwana/notes_app/blob/main/assets/1.jpeg" width="250" height="500">
-<img src="https://github.com/Usuwana/Tinder-for-Movies/blob/main/assets/demo/three.png" width="250" height="500"> <img src="https://github.com/Usuwana/notes_app/blob/main/assets/2.jpeg" width="250" height="500">
-<img src="https://github.com/Usuwana/Tinder-for-Movies/blob/main/assets/demo/five.png" width="250" height="500"> <img src="https://github.com/Usuwana/notes_app/blob/main/assets/3.jpeg" width="250" height="500">
-<img src="https://github.com/Usuwana/Tinder-for-Movies/blob/main/assets/demo/five.png" width="250" height="500"> <img src="https://github.com/Usuwana/notes_app/blob/main/assets/4.jpeg" width="250" height="500">
+<img src="https://github.com/Usuwana/notes_app/blob/main/assets/1.jpeg" width="250" height="500"> <img src="https://github.com/Usuwana/notes_app/blob/main/assets/2.jpeg" width="250" height="500">
+<img src="https://github.com/Usuwana/notes_app/blob/main/assets/3.jpeg" width="250" height="500"> <img src="https://github.com/Usuwana/notes_app/blob/main/assets/4.jpeg" width="250" height="500">
 
